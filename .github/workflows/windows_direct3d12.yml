@@ -16,16 +16,17 @@ jobs:
       - name: Checkout Code and Engines
         uses: actions/checkout@v3
         with:
-          submodules: recursive  # <--- THIS IS THE MAGIC LINE
+          submodules: recursive
+
+      - name: Setup MSVC (The Compiler)
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Compile
         run: |
-          node base/make -g direct3d11 --compile
+          node base/make.js -g direct3d11 --compile
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ArmorPaint-Windows
-          path: |
-            build/krom
-            build/Krom
+          path: build/krom
