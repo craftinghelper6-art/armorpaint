@@ -13,19 +13,24 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout Code and Engines
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
-      - name: Setup MSVC (The Compiler)
+      - name: Force Update Submodules
+        run: |
+          git submodule update --init --recursive
+
+      - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Compile
+      - name: Compile ArmorPaint
         run: |
-          node base/make.js -g direct3d11 --compile
+          node base/make -g direct3d11 --compile
 
-      - name: Upload artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: ArmorPaint-Windows
