@@ -13,15 +13,19 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code and Engines
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive  # <--- THIS IS THE MAGIC LINE
 
       - name: Compile
         run: |
-          cd paint
-          ../base/make --compile
+          node base/make -g direct3d11 --compile
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ArmorPaint-Windows
-          path: paint/build/krom
+          path: |
+            build/krom
+            build/Krom
